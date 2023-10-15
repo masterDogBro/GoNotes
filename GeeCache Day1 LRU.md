@@ -42,7 +42,7 @@
 
 ## 问题
 
-### ISSUE1
+### BigKey
 
 [[LRU\] what if a single element's size exceeded the max bytes of LRU? · Issue #1 · masterDogBro/geecache (github.com)](https://github.com/masterDogBro/geecache/issues/1)
 
@@ -95,6 +95,8 @@ Memcached：Memcached 是一个广泛使用的分布式内存缓存系统，它�
 
 方案四：大key要设置合理的过期时间，尽量不淘汰那些大key。
 ```
+
+**[redis之bigkey（看这一篇就够） - MrSatan - 博客园 (cnblogs.com)](https://www.cnblogs.com/szq95716/p/14271108.html)**
 
 在设计上直接为双向链表节点的Value大小设一个限制可能是一个比较方便的选择，这可以让系统做出让系统元素进一步分割或者拒绝写入缓存的依据。
 
