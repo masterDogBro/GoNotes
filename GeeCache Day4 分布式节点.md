@@ -14,6 +14,31 @@
 
 ![远程节点交互逻辑 (1)](C:/Users/MasterDogBro/Downloads/远程节点交互逻辑 (1).png)
 
+```
+// Overall flow char										     requsets					        local
+// gee := createGroup() --------> /api Service : 9999 ------------------------------> gee.Get(key) ------> g.mainCache.Get(key)
+// 						|											^					|
+// 						|											|					|remote
+// 						v											|					v
+// 				cache Service : 800x								|			g.peers.PickPeer(key)
+// 						|create hash ring & init peerGetter			|					|
+// 						|registry peers write in g.peer				|					|p.httpGetters[p.hashRing(key)]
+// 						v											|					|
+//			httpPool.Set(otherAddrs...)								|					v
+// 		g.peers = gee.RegisterPeers(httpPool)						|			g.getFromPeer(peerGetter, key)
+// 						|											|					|
+// 						|											|					|
+// 						v											|					v
+// 		http.ListenAndServe("localhost:800x", httpPool)<------------+--------------peerGetter.Get(key)
+// 						|											|
+// 						|requsets									|
+// 						v											|
+// 					p.ServeHttp(w, r)								|
+// 						|											|
+// 						|url.parse()								|
+// 						|--------------------------------------------
+```
+
 ## PeerPicker的实现
 
 ```
